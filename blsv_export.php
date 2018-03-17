@@ -3,13 +3,13 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 1.0.0
+ * Version 1.1.0
  *
  * Dieses Plugin erzeugt eine Exportliste zur Mitgliedermeldung beim BLSV (Bayrischer-Landessportverband).
  * 
  * Author: rmb
  *
- * Compatible with Admidio version 3.2
+ * Compatible with Admidio version 3.3
  *
  * @copyright 2004-2018 The Admidio Team
  * @see https://www.admidio.org/
@@ -21,8 +21,13 @@
 require_once(__DIR__ . '/../../adm_program/system/common.php');
 require_once(__DIR__ . '/config.php');
 
-// only administrators are allowed to start this module
-if (!$gCurrentUser->isAdministrator())
+$plugin_folder = '/'.substr(__DIR__,strrpos(__DIR__,DIRECTORY_SEPARATOR)+1);
+
+// Einbinden der Sprachdatei
+$gL10n->addLanguageFolderPath(ADMIDIO_PATH . FOLDER_PLUGINS . $plugin_folder . '/languages');
+
+// only authorized user are allowed to start this module
+if (!isUserAuthorized())
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -170,6 +175,62 @@ else
 
 exit;
 
-
+/**
+ * Funktion prueft, ob der Nutzer berechtigt ist das Plugin aufzurufen.
+ * Zur Prüfung werden die Einstellungen von 'Modulrechte' und 'Sichtbar für' 
+ * verwendet, die im Modul Menü für dieses Plugin gesetzt wurden.
+ * @return  bool    true, wenn der User berechtigt ist
+ */
+function isUserAuthorized()
+{
+	global $gDb, $gCurrentUser, $gMessage, $gL10n;
+	
+	$scriptName = $_SERVER['SCRIPT_NAME'];
+	$userIsAuthorized = false;
+	$menId = 0;
+	
+	$sql = 'SELECT men_id
+              FROM '.TBL_MENU.'
+             WHERE men_url = ? -- $scriptName ';
+	
+	$menuStatement = $gDb->queryPrepared($sql, array($scriptName));
+	
+	if ( $menuStatement->rowCount() === 0 || $menuStatement->rowCount() > 1)
+	{
+		$gMessage->show($gL10n->get('PLG_BLSV_EXPORT_MENU_URL_ERROR', $scriptName), $gL10n->get('SYS_ERROR'));
+	}
+	else
+	{
+		while ($row = $menuStatement->fetch())
+		{
+			$menId = (int) $row['men_id'];
+		}
+	}
+	
+	$sql = 'SELECT men_id, men_com_id, men_name_intern, men_name, men_description, men_url, men_icon, com_name_intern
+                  FROM '.TBL_MENU.'
+             LEFT JOIN '.TBL_COMPONENTS.'
+                    ON com_id = men_com_id
+                 WHERE men_id = ? -- $menId
+              ORDER BY men_men_id_parent DESC, men_order';
+	
+	$menuStatement = $gDb->queryPrepared($sql, array($menId));
+	while ($row = $menuStatement->fetch())
+	{
+		if ((int) $row['men_com_id'] === 0 || Component::isVisible($row['com_name_intern']))
+		{
+			// Read current roles rights of the menu
+			$displayMenu = new RolesRights($gDb, 'menu_view', $row['men_id']);
+			$rolesDisplayRight = $displayMenu->getRolesIds();
+			
+			// check for right to show the menu
+			if (count($rolesDisplayRight) === 0 || $displayMenu->hasRight($gCurrentUser->getRoleMemberships()))
+			{
+				$userIsAuthorized = true;
+			}
+		}
+	}
+	return $userIsAuthorized;
+}
 
 

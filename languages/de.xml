@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="PLG_BLSV_EXPORT_MENU_URL_ERROR">Die Authorisierungsprüfung des Plugins ist fehlgeschlagen. Es ist mehr als ein Menüpunkt mit derselben URL definiert.\n\n=> #VAR1_BOLD#</string> 
+</resources>
