@@ -21,11 +21,6 @@
 require_once(__DIR__ . '/../../adm_program/system/common.php');
 require_once(__DIR__ . '/config.php');
 
-$plugin_folder = '/'.substr(__DIR__,strrpos(__DIR__,DIRECTORY_SEPARATOR)+1);
-
-// Einbinden der Sprachdatei
-$gL10n->addLanguageFolderPath(ADMIDIO_PATH . FOLDER_PLUGINS . $plugin_folder . '/languages');
-
 // only authorized user are allowed to start this module
 if (!isUserAuthorized())
 {
