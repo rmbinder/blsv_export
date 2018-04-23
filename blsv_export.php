@@ -3,7 +3,9 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 1.1.0
+ * Version 1.1.1
+ * 
+ * Stand 23.04.2018
  *
  * Dieses Plugin erzeugt eine Exportliste zur Mitgliedermeldung beim BLSV (Bayrischer-Landessportverband).
  * 
