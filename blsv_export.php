@@ -21,8 +21,11 @@
 require_once(__DIR__ . '/../../adm_program/system/common.php');
 require_once(__DIR__ . '/config.php');
 
+//$scriptName ist der Name wie er im Menue eingetragen werden muss, also ohne evtl. vorgelagerte Ordner wie z.B. /playground/adm_plugins/blsv_export...
+$scriptName = substr($_SERVER['SCRIPT_NAME'], strpos($_SERVER['SCRIPT_NAME'], FOLDER_PLUGINS));
+
 // only authorized user are allowed to start this module
-if (!isUserAuthorized())
+if (!isUserAuthorized($scriptName))
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -176,11 +179,10 @@ exit;
  * verwendet, die im Modul Menü für dieses Plugin gesetzt wurden.
  * @return  bool    true, wenn der User berechtigt ist
  */
-function isUserAuthorized()
+function isUserAuthorized($scriptName)
 {
 	global $gDb, $gCurrentUser, $gMessage, $gL10n;
 	
-	$scriptName = $_SERVER['SCRIPT_NAME'];
 	$userIsAuthorized = false;
 	$menId = 0;
 	
