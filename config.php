@@ -13,7 +13,7 @@
 $exportMode       = 'csv-ms';
 
 // Dateiname
-$filename    = 'BLSV-Export';
+$filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 
 // Hier werden die Spalten der Exportdatei definiert. 
 // Die Struktur ist vom BLSV vorgegebenen und muss folgendermaßen aussehen:
