@@ -7,7 +7,10 @@
  * 
  * Stand 23.04.2018
  *
- * Dieses Plugin erzeugt eine Exportliste zur Mitgliedermeldung beim BLSV (Bayrischer-Landessportverband).
+ * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
+ * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
+ * 
+ * Dieses Plugin erstellt diese Exportliste als CSV-Datei.
  * 
  * Author: rmb
  *
