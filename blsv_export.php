@@ -10,9 +10,11 @@
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
  * 
- * Dieses Plugin erstellt diese Exportliste als CSV-Datei.
+ * Dieses Plugin erstellt diese Exportliste als CSV- oder als XLSX-Datei.
  * 
- * Author: rmb
+ * Hinweis: blsv_export verwendet die externe Klasse XLSXWriter (https://github.com/mk-j/PHP_XLSXWriter)
+ * 
+ * Autor: rmb
  *
  * Compatible with Admidio version 3.3
  *
@@ -40,6 +42,8 @@ $separator   = '';
 $valueQuotes = '';
 $charset     = '';
 $str_csv     = '';   // enthaelt die komplette CSV-Datei als String
+$header      = array();
+$rows        = array();
 
 switch ($exportMode)
 {
@@ -55,6 +59,10 @@ switch ($exportMode)
 		$getMode     = 'csv';
 		$charset     = 'utf-8';
 		break;
+	case 'xlsx':
+	    include_once(__DIR__ . '/vendor/PHP_XLSXWriter/xlsxwriter.class.php');
+	    $getMode     = 'xlsx';
+	    break;
 }
 
 $rols_blsv = array();
@@ -64,7 +72,14 @@ $sum_count = array();
 // die erste Zeile (Kopf) zusammensetzen
 foreach ($columns as $data)
 {
-	$str_csv .= $valueQuotes. $data['headline']. $valueQuotes. $separator;
+    if ($getMode == 'csv')
+    {
+        $str_csv .= $valueQuotes. $data['headline']. $valueQuotes. $separator;
+    }
+    else               //'xlsx'
+    {
+        $header[$data['headline']] = 'string';
+    }
 	
 	if (isset($data['rols_blsv']) && is_array($data['rols_blsv'])) 
 	{
@@ -76,8 +91,12 @@ foreach ($columns as $data)
 		}
 	}
 }
-$str_csv = substr($str_csv, 0, -1);
-$str_csv .= "\n";
+
+if ($getMode == 'csv')
+{
+    $str_csv = substr($str_csv, 0, -1);
+    $str_csv .= "\n";
+}
 
 // jetzt die Mitgliederdaten zusammensetzen
 $user = new User($gDb, $gProfileFields);
@@ -104,6 +123,7 @@ while ($row = $statement->fetch())
 	{
 		if ($user->isMemberOfRole((int) $roleId))
 		{
+		    $row = array();
 			foreach ($columns as $data)
 			{
 				$content = '';
@@ -133,10 +153,25 @@ while ($row = $statement->fetch())
 					$content = $spartennummer;
 					$rols_count[$spartennummer]++;
 				}
-				$str_csv .= $valueQuotes. $content. $valueQuotes. $separator;
+				if ($getMode == 'csv')
+				{
+				    $str_csv .= $valueQuotes. $content. $valueQuotes. $separator;
+				}
+				else                  //'xlsx'
+				{
+				    $row[] = $content;
+				}
 			}
-			$str_csv = substr($str_csv, 0, -1);
-			$str_csv .= "\n";
+			
+			if ($getMode == 'csv')
+			{
+			    $str_csv = substr($str_csv, 0, -1);
+			    $str_csv .= "\n";
+			}
+			else                     //'xlsx'
+			{
+			    $rows[] = $row;
+			}
 			
 			$sum_count[$userId] = 1;
 		}
@@ -152,28 +187,51 @@ foreach ($rols_count as $sparte => $count)
 
 $filename .= '.'.$getMode;
 	
-// for IE the filename must have special chars in hexadecimal
-if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
+if ($getMode == 'csv')
 {
-	$filename = urlencode($filename);
+    // for IE the filename must have special chars in hexadecimal
+    if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
+    {
+        $filename = urlencode($filename);
+    }
+    
+    header('Content-Disposition: attachment; filename="'.$filename.'"');
+    
+    // neccessary for IE6 to 8, because without it the download with SSL has problems
+    header('Cache-Control: private');
+    header('Pragma: public');
+    
+    // nun die erstellte CSV-Datei an den User schicken
+    header('Content-Type: text/comma-separated-values; charset='.$charset);
+    
+    if ($charset == 'iso-8859-1')
+    {
+        echo utf8_decode($str_csv);
+    }
+    else
+    {
+        echo $str_csv;
+    }
 }
-	
-header('Content-Disposition: attachment; filename="'.$filename.'"');
-	
-// neccessary for IE6 to 8, because without it the download with SSL has problems
-header('Cache-Control: private');
-header('Pragma: public');
-	
-// nun die erstellte CSV-Datei an den User schicken
-header('Content-Type: text/comma-separated-values; charset='.$charset);
-	
-if ($charset == 'iso-8859-1')
+else                    //'xlsx'
 {
-	echo utf8_decode($str_csv);
-}
-else
-{
-	echo $str_csv;
+    header('Content-disposition: attachment; filename="'.XLSXWriter::sanitize_filename($filename).'"');
+    header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    header('Content-Transfer-Encoding: binary');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    
+    $keywords = array('BLSV', $gL10n->get('PLG_BLSV_EXPORT_DATA_COMPARISON'), $gL10n->get('PLG_BLSV_EXPORT_MEMBERSHIP_REPORT'));
+    
+    $writer = new XLSXWriter();
+    $writer->setAuthor($gCurrentUser->getValue('FIRST_NAME').' '.$gCurrentUser->getValue('LAST_NAME'));
+    $writer->setTitle($filename);
+    $writer->setSubject($gL10n->get('PLG_BLSV_EXPORT_DATA_COMPARISON_WITH_BLSV'));
+    $writer->setCompany($gCurrentOrganization->getValue('org_longname'));
+    $writer->setKeywords($keywords);
+    $writer->setDescription($gL10n->get('PLG_BLSV_EXPORT_CREATED_WITH'));
+    $writer->writeSheet($rows,'', $header);
+    $writer->writeToStdOut();
 }
 
 exit;

@@ -9,8 +9,8 @@
  ***********************************************************************************************
  */
 
-// Exportmode: 'csv-ms' = Microsoft Excel oder 'csv-oo' = Standard-CSV
-$exportMode       = 'csv-ms';
+// Exportmode: 'csv-ms' = Microsoft Excel oder 'csv-oo' = Standard-CSV oder 'xlsx' = Microsoft Excel
+$exportMode       = 'xlsx';
 
 // Dateiname
 $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
@@ -50,7 +50,7 @@ $columns[] = array('headline' => 'Vorname', 'usf_id' => 2);
 $columns[] = array('headline' => 'Namenszusatz');
 $columns[] = array('headline' => 'Geschlecht', 'usf_id' => 11, 'subst' => array('m' => 'Männlich', 'w' => 'Weiblich'));
 $columns[] = array('headline' => 'Geburtsdatum', 'usf_id' => 10);
-$columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('140' => '09', '141' => '34'));
+$columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '134' => '34'));
 
 
 

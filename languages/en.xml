@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="PLG_BLSV_EXPORT_CREATED_WITH">created with the plugin blsv_export of the online user management system admidio</string> 
+    <string name="PLG_BLSV_EXPORT_DATA_COMPARISON">datacomparison</string> 
+    <string name="PLG_BLSV_EXPORT_DATA_COMPARISON_WITH_BLSV">Excel file for data comparison with the BLSV</string>
+    <string name="PLG_BLSV_EXPORT_MEMBERSHIP_REPORT">membershipreport</string> 
     <string name="PLG_BLSV_EXPORT_MENU_URL_ERROR">The authorization check of the plugin failed. There is more than one menu item with the same URL defined.\n\n=> #VAR1_BOLD#</string> 
 </resources>
