@@ -41,7 +41,7 @@ $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 //
 // Wichtig: Alle zu meldenden Mitglieder muessen sich in Rollen befinden. Es bietet sich hier an, mit abhaengigen Rollen zu arbeiten.
 // z.B. von der Rolle Fußballabteilung abgaengige Rollen: 1. Mannschaft, 2. Mannschaft, A-Junioren usw.
-// Fußballabteilung besitzt in der Admidio-Installation des Autors die Rollen-ID 140, beim BLSV die Spartennummer 09
+// array('135' => '09',.... => in der Admidio-Installation des Autors besitzt die Fußballabteilung die Rollen-ID 135, beim BLSV die Spartennummer 09
 
 $columns = array(); 
 $columns[] = array('headline' => 'Titel');
