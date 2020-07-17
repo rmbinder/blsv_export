@@ -9,9 +9,6 @@
  ***********************************************************************************************
  */
 
-// Exportmode: 'csv-ms' = Microsoft Excel oder 'csv-oo' = Standard-CSV oder 'xlsx' = Microsoft Excel
-$exportMode       = 'xlsx';
-
 // Dateiname
 $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 
