@@ -42,7 +42,7 @@ if (!isUserAuthorized($scriptName))
 $headline = $gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT');
 
 // create html page object
-$page = new HtmlPage($headline);
+$page = new HtmlPage('plg-blsv-export', $headline);
 
 // add current url to navigation stack
 $gNavigation->addUrl(CURRENT_URL, $headline);
