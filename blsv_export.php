@@ -41,11 +41,9 @@ if (!isUserAuthorized($scriptName))
 
 $headline = $gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT');
 
-// create html page object
 $page = new HtmlPage('plg-blsv-export', $headline);
 
-// add current url to navigation stack
-$gNavigation->addUrl(CURRENT_URL, $headline);
+$gNavigation->addStartUrl(CURRENT_URL, $headline);
 
 $page->addHtml($gL10n->get('PLG_BLSV_EXPORT_DESC'));
 $page->addHtml('<br><br>');
@@ -57,7 +55,7 @@ $page->addHtml('<br><br>');
 // show form
 $form = new HtmlForm('blsv_export_form', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/export.php'), $page);
 
-$radioButtonEntries = array('xlsx' => $gL10n->get('LST_MICROSOFT_EXCEL').' (XLSX)', 'csv-ms' => $gL10n->get('LST_MICROSOFT_EXCEL').' (CSV)', 'csv-oo' => $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')' );
+$radioButtonEntries = array('xlsx' => $gL10n->get('SYS_MICROSOFT_EXCEL').' (XLSX)', 'csv-ms' => $gL10n->get('SYS_MICROSOFT_EXCEL').' (CSV)', 'csv-oo' => $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')' );
 $form->addRadioButton('export_mode',$gL10n->get('PLG_BLSV_EXPORT_SELECT_EXPORTFORMAT'), $radioButtonEntries, array('defaultValue' => 'xlsx'));
 $form->addSubmitButton('btn_export', $gL10n->get('PLG_BLSV_EXPORT_CREATE_FILE'), array('icon' => 'fa-file-export', 'class' => ' col-sm-offset-3'));
 
