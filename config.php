@@ -13,7 +13,7 @@
 $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 
 // Hier werden die Spalten der Exportdatei definiert. 
-// Die Struktur ist vom BLSV (Bayrischer Landes-Sportverband) vorgegebenen und muss folgendermaßen aussehen:
+// Die Struktur ist vom BLSV (Bayerischer Landes-Sportverband) vorgegebenen und muss folgendermaßen aussehen:
 //
 // Titel | Name | Vorname | Namenszusatz | Geschlecht | Geburtsdatum | Spartennummer
 //

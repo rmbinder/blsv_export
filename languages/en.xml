@@ -5,10 +5,13 @@
     <string name="PLG_BLSV_EXPORT_CREATED_WITH">created with the plugin blsv_export of the online user management system admidio</string> 
     <string name="PLG_BLSV_EXPORT_DATA_COMPARISON">datacomparison</string> 
     <string name="PLG_BLSV_EXPORT_DATA_COMPARISON_WITH_BLSV">Excel file for data comparison with the BLSV</string>
-    <string name="PLG_BLSV_EXPORT_DESC">Since the beginning of 2018, members have to be registered with the BLSV (Bavarian State Sports Association) as an Excel file with all club members.\n"BLSV_Export" creates this list as an XLSX or CSV file.</string>    
+    <string name="PLG_BLSV_EXPORT_DESC">Since the beginning of 2018, members have to be registered with the BLSV (Bavarian State Sports Association - Bayerischer Landes-Sportverband) as an Excel file with all club members.\n"BLSV_Export" creates this list as an XLSX or CSV file.</string>    
     <string name="PLG_BLSV_EXPORT_DESC2">The prerequisite is that all members who are to be registered for a branch of the BLSV are in an Admidio role (this is very easy to do with "dependencies" on roles).\nThe assignment "role (Admidio) to division (BLSV)" is defined in config.php.</string> 
     <string name="PLG_BLSV_EXPORT_DESC3">An output file could e.g. look like this: "BLSV-Export_2020-07-17_SUM-580_SPARTE09-261_SPARTE34-380.xlsx"\nBLSV-Export_2020-07-17 = bPopular text, which is defined via $filename in config.php\nSUM-580 = Total number of registered members\nSPARTE09-261 = reported for division 09: 261 members\nSPARTE34-380 = reported for division 34: 380 members</string>     
+    <string name="PLG_BLSV_EXPORT_EDIT">This can be used to edit the configuration file config.php of the plugin. After pressing the save button, a copy of the config.php is first created (config_save.php) to be on the safe side. The new configuration data are then written and the configuration file is then read in again.</string>
+    <string name="PLG_BLSV_EXPORT_EDIT_INFO">* * * ATTENTION * * * Syntax errors can cause the plugin to crash.</string>
     <string name="PLG_BLSV_EXPORT_MEMBERSHIP_REPORT">membershipreport</string> 
     <string name="PLG_BLSV_EXPORT_MENU_URL_ERROR">The authorization check of the plugin failed. There is more than one menu item with the same URL defined.\n\n=> #VAR1_BOLD#</string>
-    <string name="PLG_BLSV_EXPORT_SELECT_EXPORTFORMAT">Choose the output format:</string> 
+    <string name="PLG_BLSV_EXPORT_SELECT_EXPORTFORMAT">Choose the output format:</string>
+    <string name="PLG_BLSV_EXPORT_SETTINGS">Settings</string> 
 </resources>
