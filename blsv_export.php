@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 2.0.0-Beta1
+ * Version 2.0.0
  * 
- * Stand 18.11.2020
+ * Stand 12.12.2020
  *
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
