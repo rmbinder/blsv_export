@@ -39,7 +39,7 @@ if ($getMode === 'save')
 {
     // $_POST can not be used, because admidio removes alls HTML & PHP-Code from the parameters
     
-    $postConfigText = htmlspecialchars_decode($postOrigVal);
+    $postConfigText = htmlspecialchars_decode($_REQUEST['configtext']);
     
     $filePath = ADMIDIO_PATH . FOLDER_PLUGINS . PLUGIN_FOLDER .'/config.php';
     $filePathSave = ADMIDIO_PATH . FOLDER_PLUGINS . PLUGIN_FOLDER .'/config_save.php';
