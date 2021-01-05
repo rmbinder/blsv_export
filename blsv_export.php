@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 2.0.0
+ * Version 2.0.1
  * 
- * Stand 12.12.2020
+ * Stand 05.01.2021
  *
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
@@ -18,7 +18,7 @@
  *
  * Compatible with Admidio version 4
  *
- * @copyright 2004-2020 The Admidio Team
+ * @copyright 2004-2021 The Admidio Team
  * @see https://www.admidio.org/
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *   
