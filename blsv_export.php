@@ -3,22 +3,26 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 2.0.1
+ * Version 2.0.2
  * 
- * Stand 05.01.2021
+ * Stand 10.01.2022
  *
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
  * 
  * Dieses Plugin erstellt diese Exportliste als CSV- oder als XLSX-Datei.
  * 
- * Hinweis: blsv_export verwendet die externe Klasse XLSXWriter (https://github.com/mk-j/PHP_XLSXWriter)
  * 
- * Autor: rmb
+ * Since the beginning of 2018, a membership report to the BLSV (Bayrischer-Landessportverband) must always be made as an Excel list with all club members.
+ * 
+ * This plugin creates this export list as a CSV or XLSX file.
+ * 
+ * 
+ * Author: rmb
  *
- * Compatible with Admidio version 4
+ * Compatible with Admidio version 4.0 (also 4.1)
  *
- * @copyright 2004-2021 The Admidio Team
+ * @copyright 2004-2022 The Admidio Team
  * @see https://www.admidio.org/
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *   
