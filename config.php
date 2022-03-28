@@ -32,21 +32,27 @@ $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 //
 // Folgende Schluesselwerte sind möglich:
 // 'headline'  = 'Text'                                      * Pflichtfeld; Spaltenueberschrift
-// 'usf_id'    = Zahl                                        * Optionsfeld; soll in dieser Spalte der Inhalt eines Profilfeldes dargestellt weden, so ist die usf_id des Profilfeldes einzutragen
+// 'usf_uuid'  = 'String'                                    * Optionsfeld; soll in dieser Spalte der Inhalt eines Profilfeldes dargestellt werden, so ist die usf_uuid des Profilfeldes einzutragen
+//                                                             1: Möglichkeit: 'usf_uuid' => $gProfileFields->getProperty('<interner_Name>', 'usf_uuid')
+//                                                             2: Möglichkeit: 'usf_uuid' => 'cddbc1ba-bc3c-4f30-b68b-d8f85f6b9954'
 // 'subst'     = array('m' => 'Männlich', 'w' => 'Weiblich') * Optionsfeld, falls Ersetzungen durchgeführt werden sollen
 // 'rols_blsv' = array(Rol-ID => Spartennummer im BLSV)      * Pflichtfeld; der Schluesselwert 'rols_blsv' muss einmal vorhanden sein
 //
-// Wichtig: Alle zu meldenden Mitglieder muessen sich in Rollen befinden. Es bietet sich hier an, mit abhaengigen Rollen zu arbeiten.
-// z.B. von der Rolle Fußballabteilung abgaengige Rollen: 1. Mannschaft, 2. Mannschaft, A-Junioren usw.
-// array('135' => '09',.... => in der Admidio-Installation des Autors besitzt die Fußballabteilung die Rollen-ID 135, beim BLSV die Spartennummer 09
+// Wichtig: Alle zu meldenden Mitglieder muessen sich in Rollen befinden (Es bietet sich hier an, mit abhaengigen Rollen zu arbeiten).
+//
+// Beispiel:
+// Alle Mitglieder der Rollen "Fußballabteilung" (Rollen-ID in Admidio 135) und "Gymnastikabteilung" (Rollen-ID in Admidio 125) sollen an den BLSV gemeldet werden.
+// Beim BLSV besitzt Fußball die Spartennummer 09, Gymnastik (Turnen) die Spartennummer 34
+// Folgende Konfiguration ist anzugeben:
+// $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '125' => '34'));
 
 $columns = array(); 
 $columns[] = array('headline' => 'Titel');
-$columns[] = array('headline' => 'Name', 'usf_id' => 1);
-$columns[] = array('headline' => 'Vorname', 'usf_id' => 2);
+$columns[] = array('headline' => 'Name',         'usf_uuid' => $gProfileFields->getProperty('LAST_NAME', 'usf_uuid'));
+$columns[] = array('headline' => 'Vorname',      'usf_uuid' => $gProfileFields->getProperty('FIRST_NAME', 'usf_uuid'));
 $columns[] = array('headline' => 'Namenszusatz');
-$columns[] = array('headline' => 'Geschlecht', 'usf_id' => 11, 'subst' => array('m' => 'Männlich', 'w' => 'Weiblich'));
-$columns[] = array('headline' => 'Geburtsdatum', 'usf_id' => 10);
+$columns[] = array('headline' => 'Geschlecht',   'usf_uuid' => $gProfileFields->getProperty('GENDER', 'usf_uuid'), 'subst' => array('m' => 'Männlich', 'w' => 'Weiblich'));
+$columns[] = array('headline' => 'Geburtsdatum', 'usf_uuid' => $gProfileFields->getProperty('BIRTHDAY', 'usf_uuid'));
 $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '134' => '34'));
 
 

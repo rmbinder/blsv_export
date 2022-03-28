@@ -28,6 +28,8 @@ $str_csv     = '';   // enthaelt die komplette CSV-Datei als String
 $header      = array();
 $rows        = array();
 
+$userField = new TableUserField($gDb);
+
 switch ($postExportMode)
 {
 	case 'csv-ms':
@@ -113,20 +115,23 @@ while ($row = $statement->fetch())
 			foreach ($columns as $data)
 			{
 				$content = '';
-				if (isset($data['usf_id']) )
+				if (isset($data['usf_uuid']) )
 				{
-					if ( ($gProfileFields->getPropertyById( $data['usf_id'], 'usf_type') == 'DROPDOWN'
-							|| $gProfileFields->getPropertyById($data['usf_id'], 'usf_type') == 'RADIO_BUTTON') )
+				    $userField->readDataByUuid($data['usf_uuid']);
+				    $usf_id = $userField->getValue('usf_id');
+				    
+				    if ( ($gProfileFields->getPropertyById( $usf_id, 'usf_type') == 'DROPDOWN'
+				        || $gProfileFields->getPropertyById($usf_id, 'usf_type') == 'RADIO_BUTTON') )
 					{
-						$content =  $user->getValue($gProfileFields->getPropertyById($data['usf_id'], 'usf_name_intern'), 'database');
+					    $content =  $user->getValue($gProfileFields->getPropertyById($usf_id, 'usf_name_intern'), 'database');
 						
 						// show selected text of optionfield or combobox
-						$arrListValues = $gProfileFields->getPropertyById($data['usf_id'], 'usf_value_list', 'text');
+					    $arrListValues = $gProfileFields->getPropertyById($usf_id, 'usf_value_list', 'text');
 						$content       = $arrListValues[$content];
 					}
 					else 
 					{
-						$content = $user->getValue($gProfileFields->getPropertyById($data['usf_id'], 'usf_name_intern'));
+					    $content = $user->getValue($gProfileFields->getPropertyById($usf_id, 'usf_name_intern'));
 					}
 					
 					if (isset($data['subst']) )
