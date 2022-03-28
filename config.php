@@ -50,5 +50,25 @@ $columns[] = array('headline' => 'Geburtsdatum', 'usf_id' => 10);
 $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '134' => '34'));
 
 
+//**************************************************************************************************
+// Option BSBnet kompatible Austauschdatei
+//
+//   *  *  *  ACHTUNG  *  *  *
+// Wird als Exportdatei "BSBnet (XML)" gewählt, darf die Anzahl und die Reihenfolge der Spalten (wie weiter oben erwähnt) NICHT verändert werden.
+//
+// Im Schluesselwert 'rols_blsv' ist anstelle der Spartennummer des BLSV die Nummer des BSB-Fachverbandes einzugeben.
+// 
+// Beispiel:
+// In Admidio sollen gegeben sein eine Rolle "Fußballabteilung" mit der Rollen-ID 135 und eine Rolle "Volleyballabteilung" mit der Rollen-ID 134
+// Im BSB Nord besitzt Fußball die Fachverbandsnummer 30 und Volleyball die Nummer 88
+// Folgende Konfiguration ist anzugeben:
+// $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '30', '134' => '88'));
+//
+// Zusätzlich ist in der BSBnet kompatiblen Austauschdatei die Angabe einer Vereinsnummer erforderlich:
+// (Alle weiteren notwendigen Variablen sind in der export.php fest kodiert.)
+$verein_nummer = 12345;
+
+
+
 
 

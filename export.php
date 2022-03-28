@@ -18,7 +18,7 @@ if (!StringUtils::strContains($gNavigation->getUrl(), 'blsv_export.php'))
     $gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
-$postExportMode = admFuncVariableIsValid($_POST, 'export_mode', 'string', array('defaultValue' => 'xlsx', 'validValues' => array('csv-ms', 'csv-oo', 'xlsx' )));
+$postExportMode = admFuncVariableIsValid($_POST, 'export_mode', 'string', array('defaultValue' => 'xlsx', 'validValues' => array('csv-ms', 'csv-oo', 'xlsx', 'xml' )));
 
 // initialize some special mode parameters
 $separator   = '';
@@ -45,6 +45,9 @@ switch ($postExportMode)
 	case 'xlsx':
 	    include_once(__DIR__ . '/libs/PHP_XLSXWriter/xlsxwriter.class.php');
 	    $getMode     = 'xlsx';
+	    break;
+	case 'xml':
+	    $getMode     = 'xml';
 	    break;
 }
 
@@ -196,7 +199,7 @@ if ($getMode == 'csv')
         echo $str_csv;
     }
 }
-else                    //'xlsx'
+elseif ($getMode == 'xlsx')                 
 {
     header('Content-disposition: attachment; filename="'.XLSXWriter::sanitize_filename($filename).'"');
     header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -215,4 +218,95 @@ else                    //'xlsx'
     $writer->setDescription($gL10n->get('PLG_BLSV_EXPORT_CREATED_WITH'));
     $writer->writeSheet($rows,'', $header);
     $writer->writeToStdOut();
+}
+else                    //'xml'
+{
+    // vorbelegte Variablen:
+    $software_schluessel = 'ADMIDIO'.'-'.ADMIDIO_VERSION_TEXT.'-Plugin-'.$gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT').'-v2.1.0-Beta1';
+    $verein_bezeichnung = $gCurrentOrganization->getValue('org_longname');
+    $verein_ansprechpartner = $gCurrentUser->getValue('FIRST_NAME').' '.$gCurrentUser->getValue('LAST_NAME');
+    
+    $xml = new SimpleXMLElement('<Jahrgangszahlen/>');
+    
+    $xml->addChild('Software')->addChild('Schluessel', $software_schluessel);
+    
+    $verein = $xml->addChild('Verein');
+    $verein->addChild('Nummer', $verein_nummer);
+    $verein->addChild('Bezeichnung', $verein_bezeichnung);
+    $verein->addChild('Ansprechpartner', $verein_ansprechpartner);
+
+    $bsbnet_arr= array();
+    foreach ($rows as $row)
+    {
+        $jahrgang = date('Y', strtotime($row[5]));
+        
+        if (!isset($bsbnet_arr[$jahrgang]))
+        {
+            $bsbnet_arr[$jahrgang] = array('anzahlm' => 0, 'anzahlw' => 0, 'fachverband' => array());
+        }
+        
+        if (!isset($bsbnet_arr[$jahrgang]['fachverband'][$row[6]]))
+        {
+            $bsbnet_arr[$jahrgang]['fachverband'][$row[6]] = array('anzahlm' => 0, 'anzahlw' => 0);
+        }
+        
+        if ($row[4] === 'm')
+        {
+            $bsbnet_arr[$jahrgang]['anzahlm']++;
+            $bsbnet_arr[$jahrgang]['fachverband'][$row[6]]['anzahlm']++;
+        }
+        elseif ($row[4] === 'w')
+        {
+            $bsbnet_arr[$jahrgang]['anzahlw']++;
+            $bsbnet_arr[$jahrgang]['fachverband'][$row[6]]['anzahlw']++;
+        }
+        else
+        {
+            // wenn Geschlecht nicht 'w' und auch nicht 'm' ist, dann nicht inkrementieren
+        }
+    }
+    
+    ksort($bsbnet_arr);             // nach Jahrgang sortieren
+    
+    foreach ($bsbnet_arr as $jahrgang => $dataA)
+    {
+        $zahlen = $xml->addChild('Zahlen');
+        $zahlen->addChild('Typ', 'A');
+        $zahlen->addChild('Fachverband');
+        $zahlen->addChild('Jahrgang', $jahrgang);
+        $zahlen->addChild('AnzahlM', $dataA['anzahlm']);
+        $zahlen->addChild('AnzahlW', $dataA['anzahlw']);
+        
+        foreach ($dataA['fachverband'] as $fachverband => $dataB)
+        {
+            $zahlen = $xml->addChild('Zahlen');
+            $zahlen->addChild('Typ', 'B');
+            $zahlen->addChild('Fachverband', $fachverband);
+            $zahlen->addChild('Jahrgang', $jahrgang);
+            $zahlen->addChild('AnzahlM', $dataB['anzahlm']);
+            $zahlen->addChild('AnzahlW', $dataB['anzahlw']);
+        }
+    }								
+        
+    /******************************************************************************
+    * XML-Datei schreiben
+    *****************************************************************************/
+        
+    header('content-type: text/xml');
+    header('Cache-Control: private'); // noetig fuer IE, da ansonsten der Download mit SSL nicht funktioniert
+    header('Content-Transfer-Encoding: binary'); // Im Grunde ueberfluessig, hat sich anscheinend bewaehrt
+    header('Cache-Control: post-check=0, pre-check=0'); // Zwischenspeichern auf Proxies verhindern
+    header('Content-Disposition: attachment; filename= "'.$filename.'" ');
+          
+   // diese Anweisung erzeugt zwar einen wohlgeformten XML-String, er ist aber schlecht lesbar, da er in einer einzigen Zeile geschrieben ist
+    //echo $xml->asXML();                       
+  
+    // formatierten XML-String erzeugen
+    $dom = new DOMDocument('1.0');
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    $dom->loadXML($xml->asXML());
+    echo $dom->saveXML();
+    
+    exit();
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="PLG_BLSV_EXPORT_BLSV_EXPORT">BLSV_Export</string>
+    <string name="PLG_BLSV_EXPORT_BSBNET">BSBnet</string>   
     <string name="PLG_BLSV_EXPORT_CREATE_FILE">Exportdatei erzeugen</string>
     <string name="PLG_BLSV_EXPORT_CREATED_WITH">erstellt mit dem Plugin blsv_export der Online-Mitgliederverwaltung Admidio</string> 
     <string name="PLG_BLSV_EXPORT_DATA_COMPARISON">Datenabgleich</string> 
