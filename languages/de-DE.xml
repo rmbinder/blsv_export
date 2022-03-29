@@ -13,6 +13,10 @@
     <string name="PLG_BLSV_EXPORT_EDIT_INFO">* * * ACHTUNG * * * Syntaxfehler können zum Absturz des Plugins führen.</string>
     <string name="PLG_BLSV_EXPORT_MEMBERSHIP_REPORT">Mitgliedermeldung</string> 
     <string name="PLG_BLSV_EXPORT_MENU_URL_ERROR">Die Authorisierungsprüfung des Plugins ist fehlgeschlagen. Es ist mehr als ein Menüpunkt mit derselben URL definiert.\n\n=> #VAR1_BOLD#</string> 
+    <string name="PLG_BLSV_EXPORT_PLUGIN_DATE">Stand</string>
+    <string name="PLG_BLSV_EXPORT_PLUGIN_INFORMATION">Plugininformationen</string>
+    <string name="PLG_BLSV_EXPORT_PLUGIN_NAME">Name des Plugins</string>
+    <string name="PLG_BLSV_EXPORT_PLUGIN_VERSION">Version</string>
     <string name="PLG_BLSV_EXPORT_SELECT_EXPORTFORMAT">Wählen Sie das Ausgabeformat:</string>
     <string name="PLG_BLSV_EXPORT_SETTINGS">Einstellungen</string>           
 </resources>

@@ -11,6 +11,7 @@
 
 require_once(__DIR__ . '/../../adm_program/system/common.php');
 require_once(__DIR__ . '/config.php');
+include(__DIR__ . '/version.php');
 
 // only the main script can call and start this module
 if (!StringUtils::strContains($gNavigation->getUrl(), 'blsv_export.php'))
@@ -228,7 +229,7 @@ elseif ($getMode == 'xlsx')
 else                    //'xml'
 {
     // vorbelegte Variablen:
-    $software_schluessel = 'ADMIDIO'.'-'.ADMIDIO_VERSION_TEXT.'-Plugin-'.$gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT').'-v2.1.0-Beta1';
+    $software_schluessel = 'ADMIDIO'.'-'.ADMIDIO_VERSION_TEXT.'-Plugin-'.$gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT').'-'.$plugin_version;
     $verein_bezeichnung = $gCurrentOrganization->getValue('org_longname');
     $verein_ansprechpartner = $gCurrentUser->getValue('FIRST_NAME').' '.$gCurrentUser->getValue('LAST_NAME');
     

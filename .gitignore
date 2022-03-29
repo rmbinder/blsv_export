@@ -1,0 +1,3 @@
+# Backup files may not be committed
+/config_save.php
+

@@ -5,7 +5,7 @@
  *
  * Version 2.1.0 Beta1
  * 
- * Stand 10.01.2022
+ * Stand 29.03.2022
  *
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
@@ -20,7 +20,7 @@
  * 
  * Author: rmb
  *
- * Compatible with Admidio version 4.0 (also 4.1)
+ * Compatible with Admidio version 4.1
  *
  * @copyright 2004-2022 The Admidio Team
  * @see https://www.admidio.org/
@@ -48,6 +48,14 @@ $headline = $gL10n->get('PLG_BLSV_EXPORT_BLSV_EXPORT');
 $page = new HtmlPage('plg-blsv-export', $headline);
 
 $gNavigation->addStartUrl(CURRENT_URL, $headline);
+
+// icon-link to info
+$html = '<p align="right">
+            <a class="admidio-icon-link openPopup" href="javascript:void(0);" data-href="'.SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/blsv_export_popup_info.php').'">'.'
+                <i class="fas fa-info-circle" data-toggle="tooltip" title="' . $gL10n->get('SYS_INFORMATIONS') . '"></i>
+            </a>
+        </p>';
+$page->addHtml($html);
 
 $page->addHtml($gL10n->get('PLG_BLSV_EXPORT_DESC'));
 $page->addHtml('<br><br>');
