@@ -35,7 +35,7 @@ $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 // 'usf_uuid'  = 'String'                                    * Optionsfeld; soll in dieser Spalte der Inhalt eines Profilfeldes dargestellt werden, so ist die usf_uuid des Profilfeldes einzutragen
 //                                                             1: Möglichkeit: 'usf_uuid' => $gProfileFields->getProperty('<interner_Name>', 'usf_uuid')
 //                                                             2: Möglichkeit: 'usf_uuid' => 'cddbc1ba-bc3c-4f30-b68b-d8f85f6b9954'
-// 'subst'     = array('m' => 'Männlich', 'w' => 'Weiblich') * Optionsfeld, falls Ersetzungen durchgeführt werden sollen
+// 'subst'     = array('Männlich' => 'm', 'Weiblich' => 'w') * Optionsfeld um Ersetzungen durchzuführen (<Suchbegriff> => <Ersetzungsbegriff>,........)
 // 'rols_blsv' = array(Rol-ID => Spartennummer im BLSV)      * Pflichtfeld; der Schluesselwert 'rols_blsv' muss einmal vorhanden sein
 //
 // Wichtig: Alle zu meldenden Mitglieder muessen sich in Rollen befinden (Es bietet sich hier an, mit abhaengigen Rollen zu arbeiten).
@@ -51,7 +51,7 @@ $columns[] = array('headline' => 'Titel');
 $columns[] = array('headline' => 'Name',         'usf_uuid' => $gProfileFields->getProperty('LAST_NAME', 'usf_uuid'));
 $columns[] = array('headline' => 'Vorname',      'usf_uuid' => $gProfileFields->getProperty('FIRST_NAME', 'usf_uuid'));
 $columns[] = array('headline' => 'Namenszusatz');
-$columns[] = array('headline' => 'Geschlecht',   'usf_uuid' => $gProfileFields->getProperty('GENDER', 'usf_uuid'), 'subst' => array('m' => 'Männlich', 'w' => 'Weiblich'));
+$columns[] = array('headline' => 'Geschlecht',   'usf_uuid' => $gProfileFields->getProperty('GENDER', 'usf_uuid'), 'subst' => array('Männlich' => 'm', 'Weiblich' => 'w'));
 $columns[] = array('headline' => 'Geburtsdatum', 'usf_uuid' => $gProfileFields->getProperty('BIRTHDAY', 'usf_uuid'));
 $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '134' => '34'));
 
@@ -62,7 +62,7 @@ $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => 
 //   *  *  *  ACHTUNG  *  *  *
 // Wird als Exportdatei "BSBnet (XML)" gewählt, darf die Anzahl und die Reihenfolge der Spalten (wie weiter oben erwähnt) NICHT verändert werden.
 //
-// Im Schluesselwert 'rols_blsv' ist anstelle der Spartennummer des BLSV die Nummer des BSB-Fachverbandes einzugeben.
+// Im Schluesselwert 'rols_blsv' ist anstelle der Spartennummer des BLSV die Nummer des BSB-Fachverbandes anzugeben.
 // 
 // Beispiel:
 // In Admidio sollen gegeben sein eine Rolle "Fußballabteilung" mit der Rollen-ID 135 und eine Rolle "Volleyballabteilung" mit der Rollen-ID 134

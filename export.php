@@ -127,16 +127,16 @@ while ($row = $statement->fetch())
 						
 						// show selected text of optionfield or combobox
 					    $arrListValues = $gProfileFields->getPropertyById($usf_id, 'usf_value_list', 'text');
-						$content       = $arrListValues[$content];
+					    $content       = isset($arrListValues[$content]) ? $arrListValues[$content] : '';
 					}
 					else 
 					{
 					    $content = $user->getValue($gProfileFields->getPropertyById($usf_id, 'usf_name_intern'));
 					}
 					
-					if (isset($data['subst']) )
+					if (isset($data['subst'][$content]) )
 					{
-						$content = array_search($content, $data['subst']);
+					    $content = $data['subst'][$content];
 					}
 				}
 				elseif (isset($data['rols_blsv']) )
@@ -144,6 +144,7 @@ while ($row = $statement->fetch())
 					$content = $spartennummer;
 					$rols_count[$spartennummer]++;
 				}
+				
 				if ($getMode == 'csv')
 				{
 				    $str_csv .= $valueQuotes. $content. $valueQuotes. $separator;
