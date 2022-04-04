@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * BLSV_Export
  *
- * Version 2.1.0 Beta1
+ * Version 2.1.0
  * 
- * Stand 29.03.2022
+ * Stand 04.04.2022
  *
  * Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayrischer-Landessportverband) 
  * immer als Excel-Liste mit allen Vereinsmitgliedern erfolgen.
@@ -60,8 +60,6 @@ $page->addHtml($html);
 $page->addHtml($gL10n->get('PLG_BLSV_EXPORT_DESC'));
 $page->addHtml('<br><br>');
 $page->addHtml($gL10n->get('PLG_BLSV_EXPORT_DESC2'));
-$page->addHtml('<br><br>');
-$page->addHtml($gL10n->get('PLG_BLSV_EXPORT_DESC3'));
 $page->addHtml('<br><br>');
 
 if ($gCurrentUser->isAdministrator())

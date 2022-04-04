@@ -6,9 +6,10 @@
     <string name="PLG_BLSV_EXPORT_CREATED_WITH">erstellt mit dem Plugin blsv_export der Online-Mitgliederverwaltung Admidio</string> 
     <string name="PLG_BLSV_EXPORT_DATA_COMPARISON">Datenabgleich</string> 
     <string name="PLG_BLSV_EXPORT_DATA_COMPARISON_WITH_BLSV">Excel-Datei zum Datenabgleich mit dem BLSV</string>
-    <string name="PLG_BLSV_EXPORT_DESC">Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayerischer Landes-Sportverband) immer als Exceldatei mit allen Vereinsmitgliedern erfolgen.\n"BLSV_Export" erstellt diese Liste als XLSX- oder als CSV-Datei.</string>    
-    <string name="PLG_BLSV_EXPORT_DESC2">Voraussetzung ist, dass alle Mitglieder, die für eine Sparte des BLSV gemeldet werden sollen, sich in einer Rolle von Admidio befinden (Dies ist mit "Abhängigkeiten" von Rollen sehr einfach durchzuführen).\nDie Zuordnung "Rolle (Admidio) zu Sparte (BLSV)" wird in der config.php definiert.</string> 
-    <string name="PLG_BLSV_EXPORT_DESC3">Eine Ausgabedatei könnte z.B. folgendermaßen aussehen: "BLSV-Export_2020-07-17_SUM-580_SPARTE09-261_SPARTE34-380.xlsx"\nBLSV-Export_2020-07-17 = beliebiger Text, der über $filename in der config.php definiert wird\nSUM-580 = Gesamtanzahl der gemeldeten Mitglieder\nSPARTE09-261 = gemeldet für Sparte 09: 261 Mitglieder\nSPARTE34-380 = gemeldet für Sparte 34: 380 Mitglieder</string> 
+    <string name="PLG_BLSV_EXPORT_DESC">Seit Anfang 2018 muss eine Mitgliedermeldung an den BLSV (Bayerischer Landes-Sportverband) immer als (Excel-)Tabelle mit allen Vereinsmitgliedern erfolgen.\n"BLSV_Export" erstellt diese Liste als XLSX- oder als CSV-Datei.</string>    
+    <string name="PLG_BLSV_EXPORT_DESC2">Voraussetzung ist, dass alle Mitglieder, die für Sparten des BLSV gemeldet werden sollen, sich in Rollen von Admidio befinden. Dies ist mit "Abhängigkeiten" von Rollen relativ einfach durchzuführen.\n\nDie Zuordnungen "Rolle (Admidio) zu Sparte (BLSV)" erfolgen in der config.php.</string> 
+    <string name="PLG_BLSV_EXPORT_DOCUMENTATION">Dokumentation</string>
+    <string name="PLG_BLSV_EXPORT_DOCUMENTATION_OPEN">Dokumentation öffnen</string>
     <string name="PLG_BLSV_EXPORT_EDIT">Hiermit kann die Konfigurationsdatei config.php des Plugins editiert werden. Nach dem Betätigen des Speichern-Buttons wird zuerst, zur Sicherheit, eine Kopie der config.php erzeugt (config_save.php). Anschließend werden die neuen Konfigurationsdaten geschrieben und danach die Konfigurationsdatei erneut eingelesen.</string>
     <string name="PLG_BLSV_EXPORT_EDIT_INFO">* * * ACHTUNG * * * Syntaxfehler können zum Absturz des Plugins führen.</string>
     <string name="PLG_BLSV_EXPORT_MEMBERSHIP_REPORT">Mitgliedermeldung</string> 

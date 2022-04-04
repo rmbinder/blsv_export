@@ -9,72 +9,43 @@
  ***********************************************************************************************
  */
 
-// Dateiname
+// Wenn das Plugin BLSV_Export zum Erstellen einer Datenaustauschdatei zu BLSV oder BSBnet verwendet wird,
+// dann darf die Struktur der Tabelle (1. Spalte Titel, 2. Spalte Name, 3. Spalte Vorname......) nicht verändert werden. 
+// Es darf nur die Zuordnung 'Rolle' => 'Spalte' über der Schlüsselwert 'rols_blsv' angepasst werden.
+
+// Weitere Informationen zur Konfigurierung finden sich in der Dokumentation.
+ 
+// Der Dateiname der Exportdatei (hier nur Präfix) 
 $filename    = 'BLSV-Export'.'_'.date('Y-m-d');
 
-// Hier werden die Spalten der Exportdatei definiert. 
-// Die Struktur ist vom BLSV (Bayerischer Landes-Sportverband) vorgegebenen und muss folgendermaßen aussehen:
-//
-// Titel | Name | Vorname | Namenszusatz | Geschlecht | Geburtsdatum | Spartennummer
-//
-// z.B.
-// Zeile 1: Titel | Name   | Vorname | Namenszusatz | Geschlecht | Geburtsdatum | Spartennummer
-// Zeile 2:       | Muster | Max     |              |      m     |  10.02.1961  |      09
-// Zeile 3:       | Muster | Max     |              |      m     |  10.02.1961  |      34
-// Zeile 4:  Dr.  | Muster | Claudia |              |      w     |  15.05.1958  |      34
-//
-// Die Anzahl der Spalten kann fuer Meldungen an andere Dachverbände (nicht BLSV) beliebig verkleinert oder vergroessert werden.
-//
-// Jede auszugebende Spalte wird über ein untergeordnetes Array des $columns-Array definiert. 
-// Folgende Voraussetzungen muss ein untergeordnetes Array dabei mindestens aufweisen:
-//   - der Schluesselwert 'headline' ( (=Ueberschrift) muss die Überschrift der 1. Zeile enthalten
-//   - der Schluesselwert 'rols_blsv' muss genau einmal definiert sein (Ueber diesen Schluesselwert wird die Zuordnung Rolle zu Sparte durchgefuehrt).
-//
-// Folgende Schluesselwerte sind möglich:
-// 'headline'  = 'Text'                                      * Pflichtfeld; Spaltenueberschrift
-// 'usf_uuid'  = 'String'                                    * Optionsfeld; soll in dieser Spalte der Inhalt eines Profilfeldes dargestellt werden, so ist die usf_uuid des Profilfeldes einzutragen
-//                                                             1: Möglichkeit: 'usf_uuid' => $gProfileFields->getProperty('<interner_Name>', 'usf_uuid')
-//                                                             2: Möglichkeit: 'usf_uuid' => 'cddbc1ba-bc3c-4f30-b68b-d8f85f6b9954'
-// 'subst'     = array('Männlich' => 'm', 'Weiblich' => 'w') * Optionsfeld um Ersetzungen durchzuführen (<Suchbegriff> => <Ersetzungsbegriff>,........)
-// 'rols_blsv' = array(Rol-ID => Spartennummer im BLSV)      * Pflichtfeld; der Schluesselwert 'rols_blsv' muss einmal vorhanden sein
-//
-// Wichtig: Alle zu meldenden Mitglieder muessen sich in Rollen befinden (Es bietet sich hier an, mit abhaengigen Rollen zu arbeiten).
-//
-// Beispiel:
-// Alle Mitglieder der Rollen "Fußballabteilung" (Rollen-ID in Admidio 135) und "Gymnastikabteilung" (Rollen-ID in Admidio 125) sollen an den BLSV gemeldet werden.
-// Beim BLSV besitzt Fußball die Spartennummer 09, Gymnastik (Turnen) die Spartennummer 34
-// Folgende Konfiguration ist anzugeben:
-// $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '125' => '34'));
+// In einer BSBnet kompatiblen Austauschdatei (XML) kann eine Vereinsnummer übermittelt werden
+// Beispiel: $verein_nummer =  '70328';
+$verein_nummer =  '';
+
+// Definition der Spalten der Exportdatei. 
+// Die Struktur ist vom BLSV (Bayerischer Landes-Sportverband) vorgegebenen und darf nicht geändert werden.
 
 $columns = array(); 
+
+// 1. Spalte - Überschrift 'Titel' 
 $columns[] = array('headline' => 'Titel');
+
+// 2. Spalte - Überschrift 'Name'
 $columns[] = array('headline' => 'Name',         'usf_uuid' => $gProfileFields->getProperty('LAST_NAME', 'usf_uuid'));
+
+// 3. Spalte - Überschrift 'Vorname'
 $columns[] = array('headline' => 'Vorname',      'usf_uuid' => $gProfileFields->getProperty('FIRST_NAME', 'usf_uuid'));
+
+// 4. Spalte - Überschrift 'Namenszusatz'
 $columns[] = array('headline' => 'Namenszusatz');
+
+// 5. Spalte - Überschrift 'Geschlecht'
 $columns[] = array('headline' => 'Geschlecht',   'usf_uuid' => $gProfileFields->getProperty('GENDER', 'usf_uuid'), 'subst' => array('Männlich' => 'm', 'Weiblich' => 'w'));
+
+// 6. Spalte - Überschrift 'Geburtsdatum'
 $columns[] = array('headline' => 'Geburtsdatum', 'usf_uuid' => $gProfileFields->getProperty('BIRTHDAY', 'usf_uuid'));
-$columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '134' => '34'));
 
-
-//**************************************************************************************************
-// Option BSBnet kompatible Austauschdatei
-//
-//   *  *  *  ACHTUNG  *  *  *
-// Wird als Exportdatei "BSBnet (XML)" gewählt, darf die Anzahl und die Reihenfolge der Spalten (wie weiter oben erwähnt) NICHT verändert werden.
-//
-// Im Schluesselwert 'rols_blsv' ist anstelle der Spartennummer des BLSV die Nummer des BSB-Fachverbandes anzugeben.
-// 
-// Beispiel:
-// In Admidio sollen gegeben sein eine Rolle "Fußballabteilung" mit der Rollen-ID 135 und eine Rolle "Volleyballabteilung" mit der Rollen-ID 134
-// Im BSB Nord besitzt Fußball die Fachverbandsnummer 30 und Volleyball die Nummer 88
-// Folgende Konfiguration ist anzugeben:
-// $columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '30', '134' => '88'));
-//
-// Zusätzlich ist in der BSBnet kompatiblen Austauschdatei die Angabe einer Vereinsnummer erforderlich:
-// (Alle weiteren notwendigen Variablen sind in der export.php fest kodiert.)
-$verein_nummer = 12345;
-
-
-
-
+// 7. Spalte - Überschrift 'Spartennummer'
+// BLSV und BSBnet: Diese Zeile ist entsprechend anzupassen: 'rols_blsv' => array('Rol-ID in Admidio' => 'Spartennummer im BLSV (bzw. Fachverband im BSB)', ...)
+$columns[] = array('headline' => 'Spartennummer', 'rols_blsv' => array('135' => '09', '221' => '34'));
 

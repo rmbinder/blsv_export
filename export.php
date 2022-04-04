@@ -56,6 +56,7 @@ switch ($postExportMode)
 
 $rols_blsv = array();
 $rols_count = array();
+$rols_dualmembership = array();
 $sum_count = array();
 
 // die erste Zeile (Kopf) zusammensetzen
@@ -110,8 +111,24 @@ while ($row = $statement->fetch())
 	
 	foreach ($rols_blsv as $roleId => $spartennummer)
 	{
+	    if (!isset($rols_dualmembership[$spartennummer]))
+	    {
+	        $rols_dualmembership[$spartennummer] = array();
+	    }
+	    
 		if ($user->isMemberOfRole((int) $roleId))
 		{
+		    // prüfen, ob das Mitglied bereits für diese Sparte gemeldet ist
+		    if (in_array($userId, $rols_dualmembership[$spartennummer]))
+		    {
+		        //wenn ja, nicht nochmals Daten auslesen und bearbeiten
+		        continue;
+		    }
+		    else 
+		    {
+		        $rols_dualmembership[$spartennummer][] = $userId;
+		    }
+		    
 		    $row = array();
 			foreach ($columns as $data)
 			{

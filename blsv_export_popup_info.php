@@ -35,6 +35,9 @@ $form->addStaticControl('plg_name', $gL10n->get('PLG_BLSV_EXPORT_PLUGIN_NAME'), 
 $form->addStaticControl('plg_version', $gL10n->get('PLG_BLSV_EXPORT_PLUGIN_VERSION'), $plugin_version);
 $form->addStaticControl('plg_date', $gL10n->get('PLG_BLSV_EXPORT_PLUGIN_DATE'), $plugin_stand);
 
+$html = '<a class="icon-text-link" href="documentation.pdf" target="_blank"><i class="fas fa-file-pdf"></i> '.$gL10n->get('PLG_BLSV_EXPORT_DOCUMENTATION_OPEN').'</a>';
+$form->addCustomContent($gL10n->get('PLG_BLSV_EXPORT_DOCUMENTATION'), $html);
+
 $form->addHtml('</div>');
 echo $form->show();
 
